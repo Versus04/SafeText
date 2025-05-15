@@ -29,9 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.safetext.R
-import com.example.safetext.presentation.ui.components.Slidebuttons
 import com.example.safetext.presentation.viewmodel.AuthViewmodel
-import com.example.safetext.presentation.viewmodel.loginviewmodel
 
 
 @Composable
