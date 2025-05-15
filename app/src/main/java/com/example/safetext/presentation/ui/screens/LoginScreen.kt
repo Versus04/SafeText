@@ -17,6 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -24,16 +26,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.safetext.R
 import com.example.safetext.presentation.ui.components.Slidebuttons
+import com.example.safetext.presentation.viewmodel.AuthViewmodel
+import com.example.safetext.presentation.viewmodel.loginviewmodel
 
 
 @Composable
-fun LoginScreen()
+fun LoginScreen(loginviewmodel: AuthViewmodel , navController: NavController)
 {
     val username = remember{ mutableStateOf("") }
     val passwd = remember { mutableStateOf("") }
+    val issloggedin = loginviewmodel.isLoggedIn.collectAsState()
+    LaunchedEffect(issloggedin) {
+        if (issloggedin.value) {
+            navController.navigate("home") {
+                popUpTo("login") { inclusive = true }
+            }
+        }
+    }
     Surface(Modifier
         .statusBarsPadding()
         .fillMaxSize()){
@@ -47,16 +60,11 @@ fun LoginScreen()
             Spacer(Modifier.height(10.dp))
             OutlinedTextField(value = passwd.value, onValueChange = { passwd.value = it } , label = {Text("Password")})
             Button(
-                onClick = {},
+                onClick = {loginviewmodel.login(username.value,passwd.value)},
             ) {
                 Text("Login")
             }
-            TextButton(onClick = {Log.d("working","steadfast")}){ Text("Don't have an account? Sign Up") }
+            TextButton(onClick = {navController.navigate("signup")}){ Text("Don't have an account? Sign Up") }
         }
     }
-}
-@Preview
-@Composable
-fun prev(){
-    LoginScreen()
 }

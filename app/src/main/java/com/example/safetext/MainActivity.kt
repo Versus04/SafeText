@@ -12,15 +12,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.safetext.presentation.ui.screens.LoginScreen
+import com.example.safetext.presentation.viewmodel.loginviewmodel
+import com.example.safetext.services.MyApp
 import com.example.safetext.ui.theme.SafeTextTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             SafeTextTheme {
-                LoginScreen()
+            MyApp()
             }
         }
     }
