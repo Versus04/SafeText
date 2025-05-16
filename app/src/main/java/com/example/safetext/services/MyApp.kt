@@ -13,6 +13,7 @@ import com.example.safetext.presentation.ui.screens.LoginScreen
 import com.example.safetext.presentation.ui.screens.SignUpScreen
 import androidx.compose.runtime.getValue
 import com.example.safetext.presentation.ui.components.SplashScreen
+import com.example.safetext.presentation.ui.screens.AddContactScreen
 
 @Composable
 fun MyApp()
@@ -64,6 +65,9 @@ fun MyApp()
                 composable("home"){
                     HomeScreen(viewmodel,navController)
             }
+                composable("addcontact") {
+                    AddContactScreen(viewmodel,navController)
+                }
         }
     }
 }

@@ -7,7 +7,6 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.auth.user.UserInfo
-import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.postgrest
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -62,11 +61,6 @@ class authrepository @Inject constructor(
     suspend fun recievemessage(): List<MessageDTO> {
         return withContext(Dispatchers.IO) {
             val result = supabase.postgrest.from("mess").select {
-
-
-
-
-
                 "*"
             }.decodeList<MessageDTO>()
 

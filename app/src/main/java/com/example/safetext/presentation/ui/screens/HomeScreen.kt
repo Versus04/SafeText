@@ -3,10 +3,27 @@ package com.example.safetext.presentation.ui.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.MailOutline
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -19,7 +36,8 @@ import com.example.safetext.presentation.viewmodel.AuthViewmodel
 import com.example.safetext.services.loginstate
 import androidx.compose.runtime.getValue
 import com.example.safetext.data.MessageDTO
-
+/*
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(viewModel: AuthViewmodel = hiltViewModel() , navController: NavController)
 {
@@ -29,7 +47,40 @@ fun HomeScreen(viewModel: AuthViewmodel = hiltViewModel() , navController: NavCo
             navController.navigate("login")
         }
     }
-    Column(Modifier.fillMaxSize().statusBarsPadding()) {
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Chats") },
+                navigationIcon = {
+                    IconButton(onClick = { /* Profile click */ }) {
+                        Icon(Icons.Default.AccountCircle, contentDescription = "Profile")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* Search action */ }) {
+                        Icon(Icons.Default.Search, contentDescription = "Search")
+                    }
+                    IconButton(onClick = { /* Menu */ }) {
+                        Icon(Icons.Default.MoreVert, contentDescription = "Menu")
+                    }
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { /* Start new chat */ }) {
+                Icon(Icons.Default.MailOutline, contentDescription = "New Chat")
+            }
+        },
+
+        content = TODO()
+    ){padding ->
+        Column(modifier = Modifier
+            .padding(padding)
+            .fillMaxSize()
+        )
+    }
+   /* Column(Modifier.fillMaxSize().statusBarsPadding()) {
         Text("Welcome Home")
         Button(onClick = {
             viewModel.sendmessage(receiver = "versus@x.com" , message = "maze me?")
@@ -47,7 +98,68 @@ fun HomeScreen(viewModel: AuthViewmodel = hiltViewModel() , navController: NavCo
         Text(messages.size.toString())
 
 
+*/
 
+}*/
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeScreen(viewModel: AuthViewmodel = hiltViewModel() , navController: NavController) {
+    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
+    LaunchedEffect(isLoggedIn) {
+        if (isLoggedIn is loginstate.loggedout) {
+            navController.navigate("login")
+        }
+    }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Chats") },
+                navigationIcon = {
+                    IconButton(onClick = { /* Profile click */ }) {
+                        Icon(Icons.Default.AccountCircle, contentDescription = "Profile")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* Search action */ }) {
+                        Icon(Icons.Default.Search, contentDescription = "Search")
+                    }
+                    IconButton(onClick = { /* Menu */ }) {
+                        Icon(Icons.Default.MoreVert, contentDescription = "Menu")
+                    }
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {navController.navigate("addcontact") }) {
+                Icon(Icons.Default.Add, contentDescription = "New Chat")
+            }
+        }
+    ) { padding ->
+        Column(modifier = Modifier
+            .padding(padding)
+            .fillMaxSize()
+        ) {
 
-}
+            // Search Bar
+            OutlinedTextField(
+                value = "",
+                onValueChange = { /* Search logic */ },
+                placeholder = { Text("Search chats...") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                leadingIcon = {
+                    Icon(Icons.Default.Search, contentDescription = "Search Icon")
+                },
+                singleLine = true
+            )
+
+            // Chat List
+            /*LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(sampleChats) { chat ->
+                    ChatItem(chat)
+                }
+            }*/
+        }
+    }
 }
