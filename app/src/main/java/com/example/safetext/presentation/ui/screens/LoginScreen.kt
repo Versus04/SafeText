@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MultiChoiceSegmentedButtonRow
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -39,18 +40,31 @@ fun LoginScreen(loginviewmodel: AuthViewmodel , navController: NavController)
 {
     val username = remember{ mutableStateOf("") }
     val passwd = remember { mutableStateOf("") }
-    val issloggedin by loginviewmodel.isLoggedIn.collectAsState()
-    LaunchedEffect(issloggedin) {
+    val isLoggedIn by loginviewmodel.isLoggedIn.collectAsState()
+    /*LaunchedEffect(issloggedin) {
         when(issloggedin){
             is loginstate.LoggedIn ->{
                 navController.navigate("home") {
                     popUpTo("login") { inclusive = true }
                 }
             }
-            else -> {
+            /*else -> {
                 navController.navigate("login") {
                     popUpTo("home") { inclusive = true }
                 }
+            }*/
+            loginstate.Loading -> {
+
+            }
+            loginstate.loggedout -> {
+                navController.navigate("login")
+            }
+        }
+    }*/
+    LaunchedEffect(isLoggedIn) {
+        if (isLoggedIn is loginstate.LoggedIn) {
+            navController.navigate("home") {
+                popUpTo("login") { inclusive = true }
             }
         }
     }

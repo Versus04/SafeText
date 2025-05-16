@@ -1,8 +1,10 @@
 package com.example.safetext.presentation.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.listSaver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.safetext.data.MessageDTO
 import com.example.safetext.services.authrepository
 import com.example.safetext.services.loginstate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,6 +48,13 @@ class AuthViewmodel @Inject constructor(private val repository: authrepository):
         viewModelScope.launch {
             repository.logout()
         }
+    }
+    fun getmessage() : List<MessageDTO>{
+        var listt = emptyList<MessageDTO>()
+        viewModelScope.launch {
+            listt=repository.recievemessage()
+        }
+        return listt
     }
     init {
         viewModelScope.launch{ delay(2000) }

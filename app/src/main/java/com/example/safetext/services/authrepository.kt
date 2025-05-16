@@ -2,6 +2,7 @@ package com.example.safetext.services
 
 import android.provider.ContactsContract
 import android.util.Log
+import com.example.safetext.data.MessageDTO
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
@@ -9,6 +10,9 @@ import io.github.jan.supabase.auth.user.UserInfo
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.postgrest
 import jakarta.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
 class authrepository @Inject constructor(
     private val supabase: SupabaseClient
 ) {
@@ -19,7 +23,6 @@ class authrepository @Inject constructor(
                 email = mail
                 password = pass
             }
-            val session = supabase.auth.sessionStatus.value
 
 
             true
@@ -56,9 +59,25 @@ class authrepository @Inject constructor(
             Log.e("xyz", "text adding failed", e)
         false}
     }
-    suspend fun recievemessage(){
+    suspend fun recievemessage(): List<MessageDTO> {
+        return withContext(Dispatchers.IO) {
+            val result = supabase.postgrest.from("mess").select {
 
+
+
+
+
+                "*"
+            }.decodeList<MessageDTO>()
+
+            result.forEach { mess ->
+                Log.d("sadfasfdf", "${mess.message}")
+            }
+
+            result
+        }
     }
+
     fun isloggedin(): UserInfo? {
         return supabase.auth.currentUserOrNull()
     }

@@ -62,7 +62,7 @@ fun MyApp()
                     SignUpScreen(viewmodel, navController)
                 }
                 composable("home"){
-                    HomeScreen()
+                    HomeScreen(viewmodel,navController)
             }
         }
     }
