@@ -14,12 +14,14 @@ import com.example.safetext.presentation.ui.screens.SignUpScreen
 import androidx.compose.runtime.getValue
 import com.example.safetext.presentation.ui.components.SplashScreen
 import com.example.safetext.presentation.ui.screens.AddContactScreen
+import com.example.safetext.presentation.viewmodel.contactviewmodel
 
 @Composable
 fun MyApp()
 {
     val viewmodel : AuthViewmodel = hiltViewModel()
     val loggedin by viewmodel.isLoggedIn.collectAsState()
+    val contactviewmodel : contactviewmodel = hiltViewModel()
    val navController = rememberNavController()
     /*NavHost(navController = navController, startDestination = start) {
         composable("login") {
@@ -63,10 +65,10 @@ fun MyApp()
                     SignUpScreen(viewmodel, navController)
                 }
                 composable("home"){
-                    HomeScreen(viewmodel,navController)
+                    HomeScreen(viewmodel,contactviewmodel,navController)
             }
                 composable("addcontact") {
-                    AddContactScreen(viewmodel,navController)
+                    AddContactScreen(contactviewmodel,navController)
                 }
         }
     }

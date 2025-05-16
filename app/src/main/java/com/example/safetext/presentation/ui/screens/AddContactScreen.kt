@@ -24,11 +24,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
+import com.example.safetext.data.contactEntity
+import com.example.safetext.presentation.viewmodel.contactviewmodel
 
 @Composable
-fun AddContactScreen(viewmodel: AuthViewmodel , navController: NavController)
+fun AddContactScreen(viewmodel: contactviewmodel , navController: NavController)
 {
     var username by remember { mutableStateOf("") }
+    var displayname by remember { mutableStateOf("") }
+
     Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally){
         Icon(imageVector = Icons.Default.AccountCircle , contentDescription = null)
@@ -36,8 +40,11 @@ fun AddContactScreen(viewmodel: AuthViewmodel , navController: NavController)
         Text("Add Contact")
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(label = {Text("Username")}, value = username, onValueChange = {username=it})
+        OutlinedTextField(label = {Text("Display Name")}, value = displayname, onValueChange = {displayname=it})
+
         ElevatedButton(
-            onClick = {},
+            onClick = {viewmodel.addcontact(contactEntity = contactEntity(username=username,displayname=displayname))
+                      navController.navigate("home")},
             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onBackground)
         ) {
             Text("Add")
