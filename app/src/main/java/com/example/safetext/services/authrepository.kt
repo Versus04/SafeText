@@ -6,11 +6,13 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.auth.user.UserInfo
+import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.postgrest
 import jakarta.inject.Inject
-
 class authrepository @Inject constructor(
     private val supabase: SupabaseClient
 ) {
+    val sender = supabase.auth.currentSessionOrNull()?.user?.id
     suspend fun login(mail: String, pass: String): Boolean {
         return try {
             supabase.auth.signInWith(Email) {
@@ -38,7 +40,25 @@ class authrepository @Inject constructor(
             false
         }
     }
+    suspend fun sendmessage( receiveremail:String, message:String): Boolean{
+        return try{
+            val response = supabase.postgrest.from("mess")
+                .insert(
+                    mapOf(
+                        "sender" to sender,
+                        "reciever" to receiveremail,
+                        "message" to message,
+                        "timestamp" to "now()"
+                    )
+                )
+        true }
+        catch (e: Exception){
+            Log.e("xyz", "text adding failed", e)
+        false}
+    }
+    suspend fun recievemessage(){
 
+    }
     fun isloggedin(): UserInfo? {
         return supabase.auth.currentUserOrNull()
     }

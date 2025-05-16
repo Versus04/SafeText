@@ -54,5 +54,6 @@ fun SplashScreen(navController: NavController, viewModel: AuthViewmodel = hiltVi
        horizontalAlignment = Alignment.CenterHorizontally) {
        AsyncImage(model = R.drawable.aoho6l1ywovzb40rbdvj, contentDescription = null)
        CircularProgressIndicator()
+
    }
 }

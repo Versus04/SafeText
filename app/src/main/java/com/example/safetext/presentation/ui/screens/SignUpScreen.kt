@@ -42,8 +42,13 @@ fun SignUpScreen(signUpViewModel: AuthViewmodel , navcontroller: NavController)
                     popUpTo("login") { inclusive = true }
                 }
             }
-            else -> {
-                navcontroller.navigate("login")
+            is loginstate.loggedout -> {
+                navcontroller.navigate("login") {
+                    popUpTo("home") { inclusive = true }
+                }
+            }
+            else ->{
+                
             }
         }
     }

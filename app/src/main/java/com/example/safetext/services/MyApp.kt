@@ -31,7 +31,8 @@ fun MyApp()
         composable("signup") {
             val viewmodel : AuthViewmodel = hiltViewModel()
             SignUpScreen(viewmodel,navController)
-        }
+        }import androidx.
+
     }*/
     when(loggedin){
         is loginstate.Loading ->    {

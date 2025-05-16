@@ -39,7 +39,14 @@ class AuthViewmodel @Inject constructor(private val repository: authrepository):
             _isLoggedIn.value = if (user != null) loginstate.LoggedIn else loginstate.loggedout
         }
     }
-
+    fun sendmessage(receiver:String,message:String){
+        viewModelScope.launch{ repository.sendmessage(receiver, message) }
+    }
+    fun logout(){
+        viewModelScope.launch {
+            repository.logout()
+        }
+    }
     init {
         viewModelScope.launch{ delay(2000) }
         checkstatus()
