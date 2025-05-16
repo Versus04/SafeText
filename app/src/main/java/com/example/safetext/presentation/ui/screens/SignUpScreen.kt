@@ -23,8 +23,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.safetext.R
+import androidx.compose.runtime.getValue
+
 import com.example.safetext.presentation.viewmodel.AuthViewmodel
-import com.example.safetext.presentation.viewmodel.SignUpViewModel
+import com.example.safetext.services.loginstate
 
 @Composable
 fun SignUpScreen(signUpViewModel: AuthViewmodel , navcontroller: NavController)
@@ -32,11 +34,16 @@ fun SignUpScreen(signUpViewModel: AuthViewmodel , navcontroller: NavController)
     val username = remember{ mutableStateOf("") }
     val passwd = remember { mutableStateOf("") }
     val cpasswd = remember { mutableStateOf("") }
-    val issloggedin = signUpViewModel.isLoggedIn.collectAsState()
+    val issloggedin by signUpViewModel.isLoggedIn.collectAsState()
     LaunchedEffect(issloggedin) {
-        if (issloggedin.value) {
-            navcontroller.navigate("home") {
-                popUpTo("signup") { inclusive = true }
+        when(issloggedin){
+            is loginstate.LoggedIn ->{
+                navcontroller.navigate("home") {
+                    popUpTo("login") { inclusive = true }
+                }
+            }
+            else -> {
+                navcontroller.navigate("login")
             }
         }
     }

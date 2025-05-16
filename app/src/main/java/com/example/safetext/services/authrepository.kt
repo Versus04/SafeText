@@ -5,6 +5,7 @@ import android.util.Log
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
+import io.github.jan.supabase.auth.user.UserInfo
 import jakarta.inject.Inject
 
 class authrepository @Inject constructor(
@@ -16,6 +17,8 @@ class authrepository @Inject constructor(
                 email = mail
                 password = pass
             }
+            val session = supabase.auth.sessionStatus.value
+
 
             true
         } catch (e: Exception) {
@@ -36,8 +39,8 @@ class authrepository @Inject constructor(
         }
     }
 
-    fun isloggedin() : Boolean{
-        return supabase.auth.currentUserOrNull()!=null
+    fun isloggedin(): UserInfo? {
+        return supabase.auth.currentUserOrNull()
     }
     suspend fun logout(){
         supabase.auth.signOut()
